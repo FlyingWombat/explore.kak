@@ -27,12 +27,19 @@ define-command -hidden explore-buffers-validate -docstring 'Edit selected buffer
   delete-buffer *buffers*
 }
 
+define-command -hidden explore-buffers-delete -docstring 'Delete selected buffer' %{
+  execute-keys '<space><a-x>_'
+  delete-buffer %reg(.)
+  explore-buffers
+}
+
 hook global WinSetOption filetype=buffers %{
   add-highlighter window/ ref buffers
   map window normal <ret> ':<space>explore-buffers-validate<ret>'
   map window normal <backspace> ':<space>explore-buffers-parent<ret>'
   map window normal q ':<space>delete-buffer<ret>'
   map window normal <esc> ':<space>delete-buffer<ret>'
+  map window normal d ':<space>explore-buffers-delete<ret>'
   hook -always -once window WinSetOption filetype=.* %{
     remove-highlighter window/buffers
   }
