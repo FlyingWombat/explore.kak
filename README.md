@@ -42,7 +42,7 @@ Start exploring buffers by using the `buffer` command with no argument.
 For ease, you can add a key-binding to your liking, like:
 
 ``` kak
-map global normal b ':<space>buffer<ret>'
+map global normal b ': buffer<ret>'
 ```
 
 - Use <kbd>Return</kbd> to edit selected buffer.

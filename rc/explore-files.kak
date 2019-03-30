@@ -93,12 +93,12 @@ define-command -hidden explore-files-toggle-hidden -docstring 'Toggle hidden fil
 
 hook global WinSetOption filetype=directory %{
   add-highlighter window/ ref directory
-  map window normal <ret> ':<space>explore-files-forward<ret>'
-  map window normal <backspace> ':<space>explore-files-back<ret>'
-  map window normal . ':<space>explore-files-toggle-hidden<ret>'
-  map window normal R ':<space>explore-files-recursive %val(bufname)<ret>'
-  map window normal q ':<space>explore-files-change-directory<ret>'
-  map window normal <esc> ':<space>delete-buffer<ret>'
+  map window normal <ret> ': explore-files-forward<ret>'
+  map window normal <backspace> ': explore-files-back<ret>'
+  map window normal . ': explore-files-toggle-hidden<ret>'
+  map window normal R ': explore-files-recursive %val(bufname)<ret>'
+  map window normal q ': explore-files-change-directory<ret>'
+  map window normal <esc> ': delete-buffer<ret>'
   hook -always -once window WinSetOption filetype=.* %{
     remove-highlighter window/directory
   }
