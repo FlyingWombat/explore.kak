@@ -15,7 +15,7 @@ define-command -hidden explore-files-display -params 1..2 %{ evaluate-commands %
   command=$1
   path=$(realpath "${2:-.}")
   name=$(basename "$path")
-  out=$(mktemp --directory)
+  out=$(mktemp -d)
   fifo=$out/fifo
   last_buffer_name=$(basename "$kak_bufname")
   mkfifo $fifo
@@ -32,7 +32,7 @@ define-command -hidden explore-files-display -params 1..2 %{ evaluate-commands %
       # Information
       echo -markup {Information} %(Showing $name/ entries)
     }
-    hook -always -once buffer BufCloseFifo '' %(nop %sh(rm --recursive $out))
+    hook -always -once buffer BufCloseFifo '' %(nop %sh(rm -Rf $out))
     # Information
     echo -markup {Information} %(Showing $name/ entries)
   "
@@ -45,7 +45,7 @@ define-command -hidden explore-files-smart -params 0..1 %{ evaluate-commands %sh
 }}
 
 define-command -hidden explore-files -params 0..1 -docstring 'Explore directory entries' %{
-  explore-files-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_explore_files_show_hidden = true && echo --almost-all)" %arg(1)
+  explore-files-display "ls -L -p %sh(test $kak_opt_explore_files_show_hidden = true && echo -A)" %arg(1)
 }
 
 define-command -hidden explore-files-recursive -params 0..1 -docstring 'Explore directory entries recursively' %{
