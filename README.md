@@ -52,6 +52,15 @@ map global normal b ': buffer<ret>'
 
 ## Configuration
 
+### [fzf]
+
+Explore files and buffers with [fzf] using [Connect].
+
+``` kak
+set-option global explore_files_command fzf-files
+set-option global explore_buffers_command fzf-buffers
+```
+
 ### [fd]
 
 ``` kak
@@ -62,7 +71,9 @@ define-command -hidden -override explore-files-recursive -params 0..1 %{
 
 ## Options
 
+- `explore_files_command` `str`: File explorer command (Default: `explore-files`)
 - `explore_files_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
+- `explore_buffers_command` `str`: Buffer explorer command (Default: `explore-buffers`)
 
 ## Faces
 
@@ -85,6 +96,8 @@ Similar extensions:
 [Documentation]: #commands
 [Contributing]: CONTRIBUTING
 [Pathogen]: https://github.com/alexherbo2/pathogen.kak
+[Connect]: https://github.com/alexherbo2/connect.kak
+[fzf]: https://github.com/junegunn/fzf
 [fd]: https://github.com/sharkdp/fd
 [TeddyDD]: https://github.com/TeddyDD
 [kakoune-edit-or-dir]: https://github.com/TeddyDD/kakoune-edit-or-dir

@@ -1,3 +1,4 @@
+declare-option -docstring 'File explorer command' str explore_files_command explore-files
 declare-option -docstring 'Whether to show hidden files' bool explore_files_show_hidden no
 
 declare-option -hidden str explore_files
@@ -40,7 +41,7 @@ define-command -hidden explore-files-display -params 1..2 %{ evaluate-commands %
 
 define-command -hidden explore-files-smart -params 0..1 %{ evaluate-commands %sh{
   file=${1:-.}
-  edit=$(test -d "$file" && echo explore-files || echo edit)
+  edit=$(test -d "$file" && echo "$kak_opt_explore_files_command" || echo edit)
   echo "$edit %($file)"
 }}
 
@@ -106,12 +107,12 @@ hook global WinSetOption filetype=directory %{
 
 define-command -hidden explore-files-enable %{
   hook window -group explore-files RuntimeError '\d+:\d+: ''(?:edit|e)'' wrong argument count' %{
-    explore-files %sh(dirname "$kak_buffile")
+    evaluate-commands %opt(explore_files_command) %sh(dirname "$kak_buffile")
   }
   hook window -group explore-files RuntimeError '\d+:\d+: ''(?:edit|e)'' (.+): is a directory' %{
     # Hide error message
     echo
-    explore-files %val(hook_param_capture_1)
+    evaluate-commands %opt(explore_files_command) %val(hook_param_capture_1)
   }
   hook window -group explore-files RuntimeError 'unable to find file ''(.+)''' %{
     # Hide error message
@@ -130,7 +131,7 @@ hook -group explore-files global KakBegin .* %{ hook -once global WinCreate .* %
     set-register / 'error while opening file ''(.+?)'':\n\h+(.+?): is a directory'
     execute-keys '%1s<ret>'
     evaluate-commands -draft -itersel %{
-      evaluate-commands -client %val(client) explore-files %reg(.)
+      evaluate-commands -client %val(client) %opt(explore_files_command) %reg(.)
     }
   }}
 }}}

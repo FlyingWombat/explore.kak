@@ -1,3 +1,5 @@
+declare-option -docstring 'Buffer explorer command' str explore_buffers_command explore-buffers
+
 declare-option -hidden str explore_buffers_current
 
 set-face global ExploreBuffers 'yellow,default'
@@ -49,7 +51,7 @@ define-command -hidden explore-buffers-enable %{
   hook window -group explore-buffers RuntimeError '\d+:\d+: ''(buffer|b)'' wrong argument count' %{
     # Hide error message
     echo
-    explore-buffers
+    evaluate-commands %opt(explore_buffers_command)
   }
 }
 
