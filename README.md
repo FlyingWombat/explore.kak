@@ -1,105 +1,59 @@
-# Explore
+# explore.kak
 
-[![IRC Badge]][IRC]
-
-###### [Usage] | [Documentation] | [Contributing]
-
-> A file and buffer explorer for [Kakoune].
-
-![Demo]
+Explore things with your favorite explorer.
 
 ## Installation
 
-### [Pathogen]
-
-``` kak
-pathogen-infect /home/user/repositories/github.com/alexherbo2/explore.kak
-```
+Add [`explore`](rc/explore) to your autoload or source the files in the directory manually.
 
 ## Usage
 
-### Files
+Contrarily to its name, explore.kak does not explore files by itself, but provides
+an interface for exploring things (currently [files] and [buffers]) with a command
+implementation.
 
-Edit a directory:
+The [configuration](#configuration) section will give you a quick idea of how you
+can hook your favorite explorer.
 
-```
-edit [directory]
-```
+[files]: rc/explore/files.kak
+[buffers]: rc/explore/buffers.kak
 
-With no argument, edit the parent directory of the current buffer.
-
-- Use <kbd>Return</kbd> to edit files (works with multiple selections).
-- Use <kbd>Backspace</kbd> to edit parent directory.
-- Use <kbd>.</kbd> to show hidden files.
-- Use <kbd>R</kbd> to show directory entries recursively.
-- Use <kbd>q</kbd> to change directory and quit.
-- Use <kbd>Escape</kbd> to quit.
-
-### Buffers
-
-Start exploring buffers by using the `buffer` command with no argument.
-
-For ease, you can add a key-binding to your liking, like:
+**Example** – Explore a directory:
 
 ``` kak
-map global normal b ': buffer<ret>'
+edit src
 ```
 
-- Use <kbd>Return</kbd> to edit selected buffer.
-- Use <kbd>d</kbd> to delete selected buffer.
-- Use <kbd>Backspace</kbd> to explore the parent directory of the selected buffer.
-- Use <kbd>q</kbd> or <kbd>Escape</kbd> to quit.
+``` sh
+kak src
+```
+
+**Example** – Explore the current buffer directory:
+
+``` kak
+edit
+```
+
+**Example** – Explore the directory whose name is selected with `gf`:
+
+``` crystal
+require "../src/project"
+```
+
+**Example** – Explore buffers:
+
+``` kak
+buffer
+```
 
 ## Configuration
 
-### [fzf]
-
-Explore files and buffers with [fzf] using [Connect].
-
 ``` kak
-set-option global explore_files_command fzf-files
-set-option global explore_buffers_command fzf-buffers
+alias global explore-files fzf-files
+alias global explore-buffers fzf-buffers
 ```
 
-### [fd]
-
-``` kak
-define-command -hidden -override explore-files-recursive -params 0..1 %{
-  explore-files-display "fd %sh(test $kak_opt_explore_files_show_hidden = true && echo --hidden)" %arg(1)
-}
-```
-
-## Options
-
-- `explore_files_command` `str`: File explorer command (Default: `explore-files`)
-- `explore_files_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
-- `explore_buffers_command` `str`: Buffer explorer command (Default: `explore-buffers`)
-
-## Faces
-
-- `ExploreFiles` `magenta,default`: Face used to show files
-- `ExploreDirectories` `cyan,default`: Face used to show directories
-- `ExploreBuffers` `yellow,default`: Face used to show buffers
-
-## Credits
-
-Similar extensions:
-
-- [TeddyDD]/[kakoune-edit-or-dir]
-- [occivink]/[kakoune-filetree]
+See [connect.kak].
 
 [Kakoune]: https://kakoune.org
-[IRC]: https://webchat.freenode.net/#kakoune
-[IRC Badge]: https://img.shields.io/badge/IRC-%23kakoune-blue.svg
-[Demo]: images/demo.gif
-[Usage]: #usage
-[Documentation]: #commands
-[Contributing]: CONTRIBUTING
-[Pathogen]: https://github.com/alexherbo2/pathogen.kak
-[Connect]: https://github.com/alexherbo2/connect.kak
-[fzf]: https://github.com/junegunn/fzf
-[fd]: https://github.com/sharkdp/fd
-[TeddyDD]: https://github.com/TeddyDD
-[kakoune-edit-or-dir]: https://github.com/TeddyDD/kakoune-edit-or-dir
-[occivink]: https://github.com/occivink
-[kakoune-filetree]: https://github.com/occivink/kakoune-filetree
+[connect.kak]: https://github.com/alexherbo2/connect.kak
