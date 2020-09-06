@@ -6,7 +6,14 @@ Explore things with your favorite explorer.
 
 Add [`explore`](rc/explore) to your autoload or source the files in the directory manually.
 
+``` kak
+require-module explore-files
+require-module explore-buffers
+```
+
 ## Usage
+
+Enable explore with `explore-files-enable` and `explore-buffers-enable`.
 
 Contrarily to its name, explore.kak does not explore files by itself, but provides
 an interface for exploring things (currently [files] and [buffers]) with a command

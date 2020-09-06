@@ -1,7 +1,3 @@
-hook global ModuleLoaded explore-buffers %{
-  explore-buffers-enable
-}
-
 provide-module explore-buffers %{
   define-command explore-buffers-enable -docstring 'Enable explore-buffers' %{
     hook -group explore-buffers global RuntimeError "\d+:\d+: '(buffer|b)' wrong argument count" %{
@@ -18,5 +14,3 @@ provide-module explore-buffers %{
   }
   alias global explore-buffers explore-buffers-default
 }
-
-require-module explore-buffers

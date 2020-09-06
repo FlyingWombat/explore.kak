@@ -1,7 +1,3 @@
-hook global ModuleLoaded explore-files %{
-  explore-files-enable
-}
-
 provide-module explore-files %{
   define-command explore-files-enable -docstring 'Enable explore-files' %{
     hook -group explore-files global RuntimeError "\d+:\d+: '(edit|e)' wrong argument count" %{
@@ -46,5 +42,3 @@ provide-module explore-files %{
   }
   alias global explore-files explore-files-default
 }
-
-require-module explore-files
