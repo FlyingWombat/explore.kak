@@ -1,7 +1,7 @@
 provide-module explore-files %{
   # Enable explore-files
   define-command explore-files-enable -docstring 'Enable explore-files' %{
-    # Allow :edit with no argument
+    # Allow :edit with no argument to explore the buffer directory
     hook -group explore-files global RuntimeError "\d+:\d+: '(edit|e)' wrong argument count" %{
       evaluate-commands -save-regs 'd' %{
         # Save the buffer directory
