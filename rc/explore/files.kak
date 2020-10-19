@@ -37,28 +37,25 @@ provide-module explore-files %{
     hook -group explore-files global KakBegin .* %{
       # Kakoune just started; wait for the client to be created.
       hook -once global ClientCreate .* %{
-        try %{
-          # Search in the *debug* buffer
-          evaluate-commands -buffer '*debug*' -save-regs '/' %{
-            # Search the directory to edit
-            set-register / "^error while opening file '(.+?)':\n[^\n]+: is a directory$"
-            execute-keys '%1s<ret>'
+        # Save the directories
+        evaluate-commands -save-regs 'd' %{
+          try %{
+            # Search in the *debug* buffer
+            evaluate-commands -buffer '*debug*' -save-regs '/' %{
+              # Search the directories to edit
+              set-register / "^error while opening file '(.+?)':\n[^\n]+: is a directory$"
+              execute-keys '%1s<ret>'
 
-            # Match the directory to edit
-            evaluate-commands -draft -itersel -save-regs 'd' %{
-              # Save the directory
+              # Save the directories
               set-register d %reg{.}
-
-              # A bit tricky, Kakoune just started, we need to evaluate the commands in the newly created client.
-              evaluate-commands -client %val{hook_param} %{
-                # Display message
-                echo -markup "{Information}explore-files %reg{d}{Default}"
-
-                # Start exploring files
-                explore-files %reg{d}
-              }
             }
           }
+
+          # Display message
+          echo -markup "{Information}explore-files %reg{d}{Default}"
+
+          # Start exploring files
+          explore-files %reg{d}
         }
       }
     }
