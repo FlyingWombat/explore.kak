@@ -49,13 +49,12 @@ provide-module explore-files %{
               # Save the directories
               set-register d %reg{.}
             }
+            # Display message
+            echo -markup "{Information}explore-files %reg{d}{Default}"
+
+            # Start exploring files
+            explore-files %reg{d}
           }
-
-          # Display message
-          echo -markup "{Information}explore-files %reg{d}{Default}"
-
-          # Start exploring files
-          explore-files %reg{d}
         }
       }
     }
